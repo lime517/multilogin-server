@@ -9,5 +9,15 @@
    License: GPL2
    */
 
-require_once(plugin_dir_path( __FILE__ ) . 'admin.php');
-require_once(plugin_dir_path( __FILE__ ) . 'routes.php');
+namespace multilogin\server;
+
+class multilogin_server
+{
+  public function __construct() {
+    $this->include_dependency('routes.php');
+  }
+
+  private function include_dependency($file) {
+    require_once(plugin_dir_path( __FILE__ ) . $file);
+  }
+}

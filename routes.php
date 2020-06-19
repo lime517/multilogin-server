@@ -1,57 +1,65 @@
 <?php
 
+namespace multilogin\server;
+
 // Routes
-
-// Create route for login endpoint.
-add_action('rest_api_init', function () {
-
-  // With Parameters
-  register_rest_route('multilogin/v1', 'login_request', array(
-    'methods' => array('GET','POST'),
-    'callback' => 'login_request',
-  ));
-});
-
-// Example: /wp-json/multilogin/v1/login_request/?username=wow&password=amazing!
-// Login endpoint callback
-function login_request($request)
+class routes
 {
 
-    // Run a sanitization
-    $request->sanitize_params();
+    // Create route for login endpoint.
+    public function register_userCheck_route()
+    {
+        add_action('rest_api_init', function () {
+            // With Parameters
+            // Example: /wp-json/multilogin/v1/login_request/?username=wow&password=amazing!
+            register_rest_route('multilogin/v1', 'login_request', array(
+                'methods' => array('GET', 'POST'),
+                'callback' => 'login_request',
+            ));
+        });
 
-    // Establish a returnable array
-    $returnable = array();
+        function login_request($request)
+        {
 
-    // Are we being passed what we expected?
-    if(isset($request['username']) && isset($request['password'])) {
-      $request['MESSAGE'] = 'We have the two desired parameters.';
+            // Run a sanitization
+            $request->sanitize_params();
 
-      // Check for the users table
-      if(have_rows('users', 'option')) {
-        while(have_rows('users', 'option')) {
-          the_row();
+            // Establish a returnable array
+            $returnable = array();
 
-          $username = get_sub_field('username');
-          $password = get_sub_field('password');
+            // Are we being passed what we expected?
+            if (isset($request['username']) && isset($request['password'])) {
+                $request['MESSAGE'] = 'We have the two desired parameters.';
 
-          trigger_error($username . ' ' . $password, E_USER_NOTICE);
+                // Sanitize Username and Password
+                $username = trim($request['username']);
+                $password = trim($request['password']);
 
-          if($username === $request['username'] && $password === $request['password']) {
-            $permission = true;
-          }
+                // NATIVE WP USERS METHOD -
+                $user = get_user_by('login', $username);
+
+                $returnable['USER'] = $user;
+                $permission = false; // Set to false initially.
+
+                if ($user && wp_check_password($password, $user->data->user_pass, $user->ID)) {
+                    $returnable['PWD_CHECK_STATUS'] = 'Yup';
+                    $permission = true;
+                } else {
+                    $returnable['PWD_CHECK_STATUS'] = 'Nope';
+                    $permission = false; // redundant, I suppose.
+                }
+
+                // Permission
+                if ($permission === true) {
+                    $returnable['permission'] = 'true';
+                } else {
+                    $returnable['permission'] = 'false';
+                }
+
+                return $returnable;
+            } else {
+                return 'not a valid request';
+            }
         }
-      }
-
-      // Permission
-      if($permission === true) {
-        $returnable['permission'] = 'true';
-      } else {
-        $returnable['permission'] = 'false';
-      }
-
-      return $returnable;
-    } else {
-      return 'not a valid request';
     }
 }
