@@ -16,7 +16,7 @@ class multilogin_server
   private $routes;
 
   public function __construct() {
-    $this->include_dependency('includes/routes.php');
+    $this->include_dependency('classes/routes.php');
     $this->run_routes();
   }
 
