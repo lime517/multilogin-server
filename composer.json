@@ -1,5 +1,19 @@
 {
+    "name": "josephgreve/multilogin-server",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Joseph Greve",
+            "email": "limejoe517@gmail.com"
+        }
+    ],
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
+    "require": {},
     "require-dev": {
-        "lucatume/wp-browser": "^2.6"
+        "phpunit/phpunit": "^9"
     }
 }

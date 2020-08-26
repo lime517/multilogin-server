@@ -1,0 +1,26 @@
+{
+  "name": "multilogin-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress": "./node_modules/.bin/cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lime517/multilogin-server.git"
+  },
+  "author": "Joe Greve",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lime517/multilogin-server/issues"
+  },
+  "homepage": "https://github.com/lime517/multilogin-server#readme",
+  "devDependencies": {
+    "cypress": "^5.0.0"
+  }
+}
