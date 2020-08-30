@@ -11,6 +11,9 @@
 
 namespace multilogin\server;
 
+// Start the plugin.
+$multilogin_server = new multilogin_server; 
+
 class multilogin_server
 {
   private $routes;
@@ -22,7 +25,7 @@ class multilogin_server
 
   private function run_routes() {
     $this->routes = new routes; // Get some routes!
-    $this->routes->register_loginRequest_route(); // Register the loginRequest Route
+    $this->routes->register_route_loginRequest(); // Register the loginRequest Route
   }
 
   private function include_dependency($file) {

@@ -7,14 +7,14 @@ class routes
 {
 
     // Create route for login endpoint.
-    public function register_loginRequest_route()
+    public function register_route_loginRequest()
     {
         add_action('rest_api_init', function () {
             // With Parameters
             // Example: /wp-json/multilogin/v1/login_request/?username=wow&password=amazing!
             register_rest_route('multilogin/v1', 'login_request', array(
                 'methods' => array('GET', 'POST'),
-                'callback' => array($this, 'login_request_callback'),
+                'callback' => array($this, 'loginRequest_callback'),
             ));
         });
     }
